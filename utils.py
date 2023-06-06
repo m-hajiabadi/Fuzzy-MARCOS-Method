@@ -25,6 +25,57 @@ def division(A1, A2):
 def subtraction(A1, A2):
     return FuzzyNum(A1.l - A2.u, A1.m - A2.m, A1.u - A2.l)
 
+import numpy as np
+
+def process_fuzzy_file(file_path):
+    # Open the file
+    with open(file_path, 'r') as file:
+        # Read the lines of the file
+        lines = file.readlines()
+
+    # Extract the criteria from the first line
+    criteria = lines[0].strip().split()
+
+    criteria_dict = dict(enumerate(criteria))
+    # Initialize an empty list to store the fuzzy numbers
+    FuzzyNumbers = []
+
+    # Process each line (excluding the first line)
+    for line in lines[1:]:
+        # Remove leading and trailing whitespace
+        line = line.strip()
+        # Split the line by whitespace to get individual fuzzy numbers
+        numbers = line.split()
+        # Convert each fuzzy number from string to FuzzyNum object
+        fuzzy_row = [FuzzyNum(*(map(int, num.strip('()').split(',')))) for num in numbers]
+        # Append the row of fuzzy numbers to the list
+        FuzzyNumbers.append(fuzzy_row)
+
+    # Convert the list of fuzzy numbers to a NumPy array
+    fuzzy_array = np.array(FuzzyNumbers)
+
+    return fuzzy_array, criteria_dict
+
+def process_criteria_weights_file(file_path):
+    with open(file_path, "r") as file:
+        lines = file.readlines()
+
+    scenarios = []
+    scenario = []
+    for line in lines:
+        line = line.strip()
+        if line.startswith("S"):
+            if scenario:
+                scenarios.append(scenario)
+                scenario = []
+        else:
+            l, m, u = tuple(map(float, line.strip("()").split(",")))
+            weight = FuzzyNum(float(l), float(m), float(u))
+            scenario.append(weight)
+    scenarios.append(scenario)
+
+    return scenarios
+
 
 def create_extended_fuzzy_matrix(fuzzy_array, criteria_dict):
     
@@ -245,6 +296,7 @@ def plot_scenarios(all_ranks, alternatives):
     # Add a legend
     ax.legend()
 
+    plt.savefig('output.png')
     # Show the plot
     plt.show()
 

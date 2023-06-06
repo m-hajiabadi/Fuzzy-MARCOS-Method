@@ -1,0 +1,41 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Editor / IDE files
+.vscode/
+*.code-workspace
+/.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.sublime-workspace
+*.sublime-project
+*.tmproj
+*.swp
+*.swo
+*~
+*.bak
+
+# Log files
+*.log
+
+# Cache files
+*.cache
+
+# Other files to ignore
+.DS_Store
+Thumbs.db
+
